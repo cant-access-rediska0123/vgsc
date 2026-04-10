@@ -1171,19 +1171,7 @@ def generate_trajectories(
     # Check if strategy supports batch generation (baseline, self_consistency, offline_best_of_n, or beam_search with batch_generation=True)
     # When batch_generation=False, use per-sample loop for running accuracy during generation
     if (
-        isinstance(
-            strategy,
-            (
-                StrategyBaseline,
-                StrategySelfConsistency,
-                StrategyOfflineBestOfN,
-                StrategyBeamSearch,
-                StrategyWeightedSelfConsistencyStepwise,
-                StrategyVerifierGuidedSelfConsistencyStepwise,
-                StrategyTSMCStepwise,
-            ),
-        )
-        and hasattr(strategy, "generate_trajectories_batch")
+        hasattr(strategy, "generate_trajectories_batch")
         and getattr(strategy, "batch_generation", True)
     ):
         return _generate_trajectories_batch(
