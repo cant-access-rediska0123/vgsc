@@ -1,0 +1,9 @@
+data_name: "gsm8k"
+dataset_path: "test-time-compute/test_gsm8k"
+dataset_config: "default"
+dataset_split: "test"
+prompt_file: null
+answer_format: "numeric"
+subset: 1
+offset: 199
+system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."

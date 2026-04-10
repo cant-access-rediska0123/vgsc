@@ -1,0 +1,8 @@
+data_name: "math"
+dataset_path: "rediska0123/commonsence_qa_filtered"
+dataset_split: "train"  # Dataset split to use
+prompt_file: null
+answer_format: "numeric"
+subset: 500  # Only process first N samples from dataset (null for all)
+offset: 0
+system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."

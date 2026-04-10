@@ -1,0 +1,8 @@
+type: "vllm"
+model_path: "Qwen/Qwen2.5-Math-7B-Instruct"
+gpu_memory_utilization: 0.8
+tensor_parallel_size: 1
+enable_prefix_caching: true
+trust_remote_code: true
+max_model_len: 4096
+disable_thinking_mode: true

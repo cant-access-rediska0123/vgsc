@@ -1,0 +1,7 @@
+data_name: "minerva_math"
+dataset_path: "test-time-compute/test_minerva_math"
+dataset_split: "test"  # Dataset split to use
+prompt_file: null  # Not used - using system_prompt instead
+answer_format: "numeric"  # Uses math_equal() for symbolic comparison
+subset: 272  # Full Minerva Math dataset (272 samples)
+system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."

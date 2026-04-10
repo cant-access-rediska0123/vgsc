@@ -1,0 +1,8 @@
+data_name: "math"
+dataset_path: "ChilleD/StrategyQA"
+dataset_split: "test"  # Dataset split to use
+prompt_file: null
+answer_format: "boolean"
+subset: 687  # all
+offset: 0
+system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."

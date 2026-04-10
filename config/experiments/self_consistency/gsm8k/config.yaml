@@ -1,0 +1,59 @@
+hydra:
+  run:
+    dir: /cluster/project/sachan/ekaterina/data/astar_decoding/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+defaults:
+  - _self_
+
+system:
+  device: "cuda:0"
+  seed: 42
+  hf_cache: "/cluster/project/sachan/ekaterina/.cache"
+  torch_dtype: "bfloat16"
+
+model:
+  type: "vllm"
+  model_path: "Qwen/Qwen2.5-Math-1.5B-Instruct"
+  gpu_memory_utilization: 0.8
+  tensor_parallel_size: 1
+  enable_prefix_caching: true
+  trust_remote_code: true
+  max_model_len: 4096
+  disable_thinking_mode: true
+
+scorer:
+  type: chain_majority_voting
+  answer_extraction_patterns:
+    - "Answer:\\s*(.+?)(?:\\n|\\.|\\$)"
+    - "The answer is\\s*(.+?)(?:\\n|\\.|\\$)"
+    - "Therefore,?\\s*(.+?)(?:\\n|\\.|\\$)"
+    - "<Answer>:\\s*(.+?)(?:\\n|$)"
+
+verbose: true
+
+generation:
+  max_new_tokens: 4096
+  temperature: 1.0
+  top_p: 0.8
+  top_k: 20
+  batch_size: 1
+  max_length: 4096
+
+strategy:
+  type: self_consistency
+  num_paths: 10  # Number of reasoning paths (generated in single vLLM call)
+
+dataset:
+  data_name: "gsm8k"
+  dataset_path: "test-time-compute/test_gsm8k"
+  dataset_config: "default"
+  dataset_split: "test"
+  prompt_file: null
+  answer_format: "numeric"
+  subset: 500
+  offset: 0
+  system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."
+
+evaluation:
+  evaluators:
+    - exact_match

@@ -1,0 +1,15 @@
+# OpenRouter model configuration for DeepConf with real token probabilities
+
+type: openai_api  # Model interface type
+provider: openrouter
+model_path: openai/gpt-4o-mini  # OpenAI model support logprobs via OpenRouter
+api_key: null  # Set via OPENROUTER_API_KEY env var
+supports_logprobs: true  # OpenAI model support logprobs
+prefill_mode: false
+top_logprobs: 10  # Number of top token probabilities to request (max 20)
+
+# Note: Requires OPENROUTER_API_KEY environment variable
+# Models that support logprobs:
+#   - openai/gpt-4o-mini (recommended - fast and cheap)
+#   - openai/gpt-4o
+#   - openai/gpt-3.5-turbo

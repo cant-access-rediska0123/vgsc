@@ -1,0 +1,8 @@
+# @package dataset
+
+dataset_path: "gsm8k"  # Dataset to evaluate on (HuggingFace name or local path)
+dataset_config: "main"  # Dataset config name (required for some tts_datasets like GSM8K)
+dataset_split: "test"  # Dataset split to use
+subset: 100  # Only process first N samples from dataset (null for all)
+prompt_file: ./config/prompts/default.txt  # Path to prompt template file (optional)
+answer_format: "numeric"

@@ -1,0 +1,34 @@
+hydra:
+  run:
+    dir: /cluster/project/sachan/ekaterina/data/astar_decoding/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+defaults:
+  - model: qwen2.5_math_7b_instruct
+  - dataset: math_500
+  - _self_
+
+system:
+  device: "cuda:0"
+  seed: 42
+  hf_cache: "/cluster/project/sachan/ekaterina/.cache"
+  torch_dtype: "bfloat16"
+
+strategy:
+  type: baseline
+  max_new_tokens: 4096
+  temperature: 0.0
+
+scorer: null
+verbose: true
+
+generation:
+  max_new_tokens: 4096
+  temperature: 0.0
+  top_p: 0.8
+  top_k: 20
+  batch_size: 1
+  max_length: 4096
+
+evaluation:
+  evaluators:
+    - exact_match

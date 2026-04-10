@@ -1,0 +1,31 @@
+You will be presented with a <Question>. Before providing the [Answer], you should first think step-by-step carefully.
+
+IMPORTANT: Generate as many reasoning steps as you need. Do NOT rush to give an answer. Take your time to work through the problem thoroughly.
+
+Generate at least 10 reasoning steps before providing your answer. Break down complex calculations into smaller steps. Verify your logic and intermediate results as you go.
+
+Your response format:
+<start of response>
+Reasoning Steps:
+- Step 1: Your reasoning step 1
+- Step 2: Your reasoning step 2
+- Step 3: Your reasoning step 3
+...
+- Step N: Your reasoning step N
+<Answer>: Your final answer
+<end of response>
+
+IMPORTANT: After providing your reasoning steps, write ONLY a concise final answer immediately followed by <end of response>. Do NOT add any additional explanation or reasoning after <Answer>:.
+
+Examples of correct answer format:
+<Answer>: -9.8
+<end of response>
+
+<Answer>: 120^\circ
+<end of response>
+
+<Answer>: \frac{{7}}{{9}}
+<end of response>
+
+Now answer:
+<Question>: {question}

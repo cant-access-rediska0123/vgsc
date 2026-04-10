@@ -1,0 +1,6 @@
+# @package system
+
+device: "cuda:0"  # Device to use for base model
+seed: 42  # Random seed
+hf_cache: ".cache/huggingface"  # HuggingFace cache directory (local to repo)
+torch_dtype: "bfloat16"  # Options: "float16", "bfloat16", "float32", "auto"

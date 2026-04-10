@@ -1,0 +1,96 @@
+# @package _global_
+# Run: CUDA_VISIBLE_DEVICES=0 python scripts/run_tts_eval.py --config-path=../config --config-name=experiments/baseline/gaokao2023en/baseline_vllm_qwen25_math_7b_instruct_gaokao2023en
+# Baseline using Qwen2.5-Math-7B-Instruct on GaoKao 2023 En dataset
+
+defaults:
+  - /config
+  - /model/vllm_qwen3
+  - /generation/default
+  - /system/default
+  - /scorer/entropy
+  - _self_
+
+# Run naming
+run_name: "baseline_qwen25_math_7b_gaokao2023en_${now:%H-%M-%S}"
+
+# Main configuration
+verbose: true
+report_to: wandb
+wandb_project: llm-tts-eval-gaokao2023en
+
+# Model configuration (vLLM backend)
+model:
+  type: "vllm"
+  model_path: "Qwen/Qwen2.5-Math-7B-Instruct"
+  gpu_memory_utilization: 0.9
+  tensor_parallel_size: 1
+  enable_prefix_caching: true
+  trust_remote_code: true
+  max_model_len: 4096
+
+# System configuration
+system:
+  device: cuda
+  seed: 0
+
+# Generation configuration - matches official Qwen2.5-Math eval exactly
+generation:
+  max_new_tokens: 2048
+  temperature: 0.0
+  top_p: 1.0
+  batch_size: 1
+
+# Strategy - Baseline single-shot
+strategy:
+  type: baseline
+  # No semantic stop tokens for baseline (full response generation)
+  # Only EOS token IDs stop generation
+  stop_token_ids:
+    - 151645  # <|im_end|>
+    - 151643  # <|endoftext|>
+  # Step token limits (required by ThinkingMarkerDetector)
+  min_step_tokens: 0
+  max_step_tokens: 2048  # Match generation.max_new_tokens
+  # Disable all semantic markers for baseline
+  use_sequence: false
+  use_conclusion: false
+  use_thinking: false
+  use_verification: false
+  use_structure: false
+  use_reasoning: false
+  use_correction: false
+  # No answer pattern stop tokens for baseline - only used for evaluation
+  detector_answer_patterns: []
+
+# Dataset configuration - GaoKao 2023 En
+dataset:
+  dataset_path: "test-time-compute/test_gaokao2023en"
+  dataset_config: null
+  dataset_split: "test"
+  subset: 385  # Full GaoKao 2023 En dataset
+  offset: 0
+  question_field: "question"
+  answer_field: "answer"
+  answer_format: "numeric"
+  data_name: "gaokao2023en"
+  system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."
+  prompt_template: "{question}"
+  prompt_file: null
+
+# Evaluation configuration
+evaluation:
+  # Phase 1 evaluators (run during generation for running accuracy)
+  evaluators:
+    - exact_match
+
+  # Phase 2 evaluators (batch evaluation after generation)
+  batch_evaluators:
+    - llm_judge
+
+  # API-based LLM judge configuration
+  llm_judge:
+    provider: openai
+    model: gpt-4o-mini
+    base_url: https://api.openai.com/v1
+    cache_path: ./cache/llm_judge
+    n_threads: 10
