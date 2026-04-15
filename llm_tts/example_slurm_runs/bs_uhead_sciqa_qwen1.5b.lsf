@@ -1,0 +1,49 @@
+#!/bin/bash
+#SBATCH --job-name=bsu_sciqa_qwen15b
+#SBATCH --error=/cluster/project/sachan/ekaterina/data/vgsc/runs/bs_uhead_sciqa_qwen1.5b.out
+#SBATCH --output=/cluster/project/sachan/ekaterina/data/vgsc/runs/bs_uhead_sciqa_qwen1.5b.out
+#SBATCH --mem-per-cpu=100G
+#SBATCH --time=24:00:00
+#SBATCH --gpus=rtx_4090:2
+
+module load eth_proxy
+
+source /cluster/project/sachan/ekaterina/astar_decoding/bin/activate
+
+export TORCH_HOME=/cluster/project/sachan/ekaterina/.cache
+export NLTK_DATA=/cluster/project/sachan/ekaterina/.cache/nltk_data
+export HF_HOME=/cluster/scratch/efadeeva/.cache
+export TRANSFORMERS_CACHE=/cluster/scratch/efadeeva/.cache
+export PYTHONPATH=./
+export TORCH_COMPILE_DISABLE=1
+
+models=(
+  "rediska0123/qwen25-math-1.5b-uhead-prm-correctness-large-6epochs"
+)
+
+seeds=(
+  0
+  1
+  2
+  3
+  4
+)
+
+for seed in "${seeds[@]}"; do
+  for model_path in "${models[@]}"; do
+    echo "Running with seed=${seed}, scorer.model_path=${model_path}"
+
+    python3.11 -m run_tts_eval \
+      --config-path /cluster/home/efadeeva/vgsc/config/my_exps \
+      --config-name uhead_bs \
+      model=qwen2.5_math_1.5b_instruct \
+      dataset=sciqa \
+      '+dataset.prompt_template="Solve the problem carefully. Show your reasoning in short numbered steps. Then on the last line, output only the positive integer of answer choice in exactly this format: \\boxed{{(1|2|3|...)}}."' \
+      system.seed="${seed}" \
+      strategy.aggregation="product_correctness" \
+      scorer.model_path="${model_path}" \
+      strategy.beam_size=5 strategy.candidates_per_beam=5 \
+      strategy.max_steps=50 \
+      generation.temperature=1.0 generation.top_k=1000 generation.top_p=1.0
+  done
+done
