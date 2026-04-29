@@ -1,5 +1,3 @@
-This is a clone of original repo: https://github.com/IINemo/thinkbooster
-
 ## Setup
 
 ```

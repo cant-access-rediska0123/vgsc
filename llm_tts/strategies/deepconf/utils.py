@@ -1,17 +1,3 @@
-"""
-DeepConf-specific utilities for confidence computation and answer extraction.
-
-This module consolidates DeepConf-specific functionality and directly uses
-lm-polygraph's uncertainty estimation methods for confidence computation.
-
-Based on Facebook Research's DeepConf:
-https://github.com/facebookresearch/deepconf
-
-Leverages lm-polygraph's token-level uncertainty methods:
-https://github.com/IINemo/lm-polygraph/tree/dev
-See: lm-polygraph/utils/token_restoration.py:96-105
-"""
-
 import logging
 from collections import deque
 from typing import Dict, List, Optional

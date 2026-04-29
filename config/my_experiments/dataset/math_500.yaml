@@ -1,8 +1,0 @@
-data_name: "math"
-dataset_path: "test-time-compute/test_MATH"
-dataset_split: "test"  # Dataset split to use
-prompt_file: null
-answer_format: "numeric"
-subset: 500  # Only process first N samples from dataset (null for all)
-offset: 0
-system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."

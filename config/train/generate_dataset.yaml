@@ -1,13 +1,10 @@
 model_name_or_path: Qwen/Qwen2.5-Math-7B-Instruct
 
 dataset_split: train
-dataset_name: rediska0123/math-from-prm800k
 max_questions: 1000
 offset: 0
 system_prompt: "Please reason step by step, and put your final answer within \\boxed{}."
 
-output_path: /cluster/project/sachan/ekaterina/data/astar_decoding/train-qwen2.5math7binstruct-texts
-hf_output_path: rediska0123/train-qwen2.5math7binstruct-texts
 
 num_samples_per_question: 3
 enable_step_continuations: true

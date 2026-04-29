@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-"""Generate a sampled answer dataset from rediska0123/math-from-prm800k."""
-
 from __future__ import annotations
 
 import os

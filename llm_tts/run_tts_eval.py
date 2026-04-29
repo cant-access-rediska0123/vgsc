@@ -248,7 +248,7 @@ def create_scorer(config, model, key="scorer", step_generator=None):
     if getattr(scorer_config, "model_path", "no") == "no":
         return None
     if scorer_config.type == "prm":
-        if scorer_config.model_path.startswith('Qwen/') or scorer_config.model_path.startswith('rediska0123/'):
+        if scorer_config.model_path.startswith('Qwen/'):
             base_class = StepScorerPRM
         elif scorer_config.model_path.startswith('peiyi9979/'):
             base_class = StepScorerPRMMathShepherd

@@ -1,5 +1,4 @@
 data_name: "math"
-dataset_path: "rediska0123/knights_and_knaves_filtered"
 dataset_split: "train"  # Dataset split to use
 prompt_file: null
 answer_format: "numeric"

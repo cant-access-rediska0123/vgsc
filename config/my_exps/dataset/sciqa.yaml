@@ -1,5 +1,4 @@
 data_name: "math"
-dataset_path: "rediska0123/scienceqa_filtered"
 dataset_split: "test"  # Dataset split to use
 prompt_file: null
 answer_format: "numeric"
